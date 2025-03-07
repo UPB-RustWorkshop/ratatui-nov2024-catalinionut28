@@ -1,6 +1,7 @@
 use crate::app::{App, AppResult};
+use crate::connection::CityInfo;
 use crate::event::EventHandler;
-use crate::ui;
+use crate::ui::{self, render};
 use crossterm::event::{DisableMouseCapture, EnableMouseCapture};
 use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 use ratatui::backend::Backend;
@@ -49,16 +50,19 @@ impl<B: Backend> Tui<B> {
     /// [`Draw`] the terminal interface by [`rendering`] the widgets.
     ///
     /// Returns Ok() is no errors occured, Err() otherwhise
-    pub fn draw(&mut self, app: &mut App) {
+    pub fn draw(&mut self, app: &mut App, city_info: CityInfo) {
         // [`Draw`]: ratatui::Terminal::draw
         // [`rendering`]: crate::ui:render
+        self.terminal.draw(|frame| {
+            render(app, frame, city_info);
+        }).expect("Failed to draw here");
     }
 
     /// Resets the terminal interface.
     ///
     /// This function is also used for the panic hook to revert
     /// the terminal properties if unexpected errors occur.
-    fn reset() -> AppResult<()> {
+    pub fn reset() -> AppResult<()> {
         terminal::disable_raw_mode()?;
         crossterm::execute!(io::stderr(), LeaveAlternateScreen, DisableMouseCapture)?;
         Ok(())
