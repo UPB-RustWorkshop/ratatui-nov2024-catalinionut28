@@ -17,16 +17,14 @@ use crossterm::event::DisableMouseCapture;
 
 #[tokio::main]
 async fn main() -> AppResult<()> {
-    // Create an application.
-    // let app = 
-    // Initialize the terminal user interface.
     let mut app: App = App::new();
     let backend = CrosstermBackend::new(io::stderr());
     let terminal = Terminal::new(backend)?;
-    // TODO:  the terminal user interface
-    // let mut tui =
+    
     let mut tui = Tui::new(terminal, EventHandler::new(1));
+    
     tui.init()?;
+    
     while app.running {
         match get_data(app.searched_city.clone()).await {
             Ok(c) => tui.draw(&mut app, c),
@@ -38,20 +36,6 @@ async fn main() -> AppResult<()> {
         
     }
     tui.exit()?;
-    
-    
-    // TODO: init the terminal
-
-    // Start the main loop.
-    // while app.running {
-        // TODO: Render the user interface.
-
-        // TODO: Handle events.
-        
-    // }
-
-
-    // TODO: Reset the terminal if the app has been terminated
 
     Ok(())
 }

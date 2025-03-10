@@ -4,7 +4,6 @@ use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyModifiers};
 
 pub struct SearchError(String);
 
-/// Handles the key events and updates the state of [`App`].
 pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
     match (key_event.code, key_event.modifiers) {
         // TODO: define actions for quitting the app
@@ -16,7 +15,6 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
             app.state = AppView::SearchScreen;
         }
 
-        // TODO: define actions for apps functionalities
         _ => {
             match app.state {
                 AppView::SearchScreen => {

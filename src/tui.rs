@@ -51,8 +51,6 @@ impl<B: Backend> Tui<B> {
     ///
     /// Returns Ok() is no errors occured, Err() otherwhise
     pub fn draw(&mut self, app: &mut App, city_info: CityInfo) {
-        // [`Draw`]: ratatui::Terminal::draw
-        // [`rendering`]: crate::ui:render
         self.terminal.draw(|frame| {
             render(app, frame, city_info);
         }).expect("Failed to draw here");
